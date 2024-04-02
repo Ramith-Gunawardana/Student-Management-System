@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:student_management_system/pages/course_edit_1.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({super.key, required this.searchKeyword});
@@ -46,6 +47,16 @@ class CourseCard extends StatelessWidget {
                         bottom: 8,
                       ),
                       child: ListTile(
+                        onTap: () {
+                          //navigate to edit page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CourseEdit1(docID: courseData['subjectCode']),
+                            ),
+                          );
+                        },
                         title: Text(
                           '${courseData['subjectName']} (${courseData['shortName']})',
                           style: Theme.of(context).textTheme.displaySmall,

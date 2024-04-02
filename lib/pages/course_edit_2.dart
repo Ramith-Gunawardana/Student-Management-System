@@ -3,23 +3,23 @@ import 'package:student_management_system/components/custom_filled_button.dart';
 import 'package:student_management_system/components/custom_sized_box.dart';
 import 'package:student_management_system/pages/dashboard.dart';
 
-class CourseAdd2 extends StatefulWidget {
-  const CourseAdd2({
+class CourseEdit2 extends StatefulWidget {
+  const CourseEdit2({
     super.key,
     required this.subjectCode,
   });
   //data required to show
   final String subjectCode;
   @override
-  State<CourseAdd2> createState() => _CourseAdd2State();
+  State<CourseEdit2> createState() => _CourseEdit2State();
 }
 
-class _CourseAdd2State extends State<CourseAdd2> {
+class _CourseEdit2State extends State<CourseEdit2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Course'),
+        title: const Text('Edit Course'),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: Padding(
@@ -34,7 +34,7 @@ class _CourseAdd2State extends State<CourseAdd2> {
                 children: [
                   const Icon(Icons.check_circle_outline_rounded),
                   const FormGap(),
-                  const Text('Course added sucessfully'),
+                  const Text('Course updated sucessfully'),
                   const FormGap(),
                   const FormGap(),
                   Text(

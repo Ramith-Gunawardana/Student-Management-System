@@ -134,7 +134,14 @@ class _HomeState extends State<Home> {
                       icon: const ImageIcon(
                           AssetImage('assets/icons/course.png')),
                       label: 'View all Courses',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Dashboard(selectedIndex: 2),
+                          ),
+                        );
+                      },
                       height: screenHeight,
                       width: screenWidth,
                     ),

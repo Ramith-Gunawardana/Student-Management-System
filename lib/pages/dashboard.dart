@@ -59,7 +59,7 @@ class _DashboardState extends State<Dashboard> {
       ),
 
       //floating action button
-      floatingActionButton: _selectedIndex == 0
+      floatingActionButton: _selectedIndex == 0 || _selectedIndex == 3
           ? null
           : FloatingActionButton(
               onPressed: () {

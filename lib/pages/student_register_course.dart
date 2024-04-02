@@ -13,10 +13,12 @@ class StudentRegisterCourse extends StatefulWidget {
     super.key,
     required this.intake,
     required this.degree,
+    required this.regnoDocID,
     required this.regno,
   });
   final String intake;
   final String degree;
+  final String regnoDocID;
   final String regno;
 
   @override
@@ -174,6 +176,29 @@ class _StudentRegisterCourseState extends State<StudentRegisterCourse> {
     );
   }
 
+  //create log
+  void createLog(String sem, String regno) async {
+    try {
+      String currentDateTime = DateTime.now().toString();
+      await FirebaseFirestore.instance
+          .collection('Log')
+          .doc(currentDateTime)
+          .set({
+        'datetime': currentDateTime,
+        'activity': 'Courses added for $sem of $regno',
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  //add to fire base
   void registerCourses() async {
     setState(() {
       isLoading = true;
@@ -183,10 +208,13 @@ class _StudentRegisterCourseState extends State<StudentRegisterCourse> {
           .collection('Student')
           .doc(widget.intake)
           .collection(widget.degree)
-          .doc(widget.regno)
+          .doc(widget.regnoDocID)
           .update({
         _semester.text: FieldValue.arrayUnion(selectedCourses),
       });
+
+      //create log
+      createLog(_semester.text, widget.regno);
 
       //show succes message
       ScaffoldMessenger.of(context).showSnackBar(

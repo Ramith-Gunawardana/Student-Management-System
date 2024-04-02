@@ -88,7 +88,8 @@ class _StudentAdd2State extends State<StudentAdd2> {
         builder: (context) => StudentRegisterCourse(
           intake: widget.intake,
           degree: widget.degree,
-          regno: widget.regnoDocID,
+          regnoDocID: widget.regnoDocID,
+          regno: widget.indexNumber,
         ),
       ),
     );

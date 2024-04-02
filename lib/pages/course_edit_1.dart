@@ -7,15 +7,21 @@ import 'package:student_management_system/components/custom_text_form_field.dart
 import 'package:student_management_system/constants.dart';
 import 'package:student_management_system/controller/course_controller.dart';
 import 'package:student_management_system/pages/course_add_2.dart';
+import 'package:student_management_system/pages/course_edit_2.dart';
+import 'package:student_management_system/pages/dashboard.dart';
 
-class CourseAdd1 extends StatefulWidget {
-  const CourseAdd1({super.key});
+class CourseEdit1 extends StatefulWidget {
+  const CourseEdit1({
+    super.key,
+    required this.docID,
+  });
+  final String docID;
 
   @override
-  State<CourseAdd1> createState() => _CourseAdd1State();
+  State<CourseEdit1> createState() => _CourseEdit1State();
 }
 
-class _CourseAdd1State extends State<CourseAdd1> {
+class _CourseEdit1State extends State<CourseEdit1> {
   //controller data
   final TextEditingController _semester = CourseControllerData().semester;
   final TextEditingController _subjectCode = CourseControllerData().subjectCode;
@@ -35,11 +41,23 @@ class _CourseAdd1State extends State<CourseAdd1> {
   String subCode = '';
 
   @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Course'),
+        title: const Text('Edit Course'),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        actions: [
+          IconButton(
+            onPressed: deleteCourse,
+            icon: const Icon(Icons.delete_outline_rounded),
+          ),
+        ],
       ),
       body: GlowingOverscrollIndicator(
         color: Theme.of(context).colorScheme.primaryContainer,
@@ -101,12 +119,12 @@ class _CourseAdd1State extends State<CourseAdd1> {
                 const FormGap(),
                 //next button
                 CustomFilledButton(
-                  onPressed: addNewCourse,
+                  onPressed: updateCourse,
                   child: isLoading
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
-                      : const Text('Next'),
+                      : const Text('Save'),
                 ),
               ],
             ),
@@ -122,7 +140,7 @@ class _CourseAdd1State extends State<CourseAdd1> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CourseAdd2(
+        builder: (context) => CourseEdit2(
           subjectCode: subjectCode,
         ),
       ),
@@ -153,6 +171,127 @@ class _CourseAdd1State extends State<CourseAdd1> {
     });
   }
 
+  //create delete Log
+  void createLogDelete(String data) async {
+    try {
+      String currentDateTime = DateTime.now().toString();
+      await FirebaseFirestore.instance
+          .collection('Log')
+          .doc(currentDateTime)
+          .set({
+        'datetime': currentDateTime,
+        'activity': 'Course deleted ($data)',
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  //delete data
+  void deleteCourse() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Delete Course',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          icon: const Icon(Icons.delete_outline_rounded),
+          content: const Text(
+              'This action cannot be undone. Are you sure want to delete?'),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () async {
+                try {
+                  FirebaseFirestore.instance
+                      .collection('Course')
+                      .doc(widget.docID)
+                      .delete();
+
+                  //create log
+                  createLogDelete(widget.docID);
+
+                  //show message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      content: Text(
+                        'Course deleted successfully',
+                      ),
+                    ),
+                  );
+                } on FirebaseException catch (e) {
+                  print(e);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString()),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+                //clear fileds
+                clearAllFields();
+
+                //navigate to coursepage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Dashboard(selectedIndex: 2),
+                  ),
+                );
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //fetch data
+  void fetchData() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('Course')
+          .doc(widget.docID)
+          .get();
+
+      //data
+      final courseData = snapshot.data() as Map<String, dynamic>;
+      //fill data
+      _semester.text = courseData['semester'];
+      _subjectCode.text = courseData['subjectCode'];
+      _subjectName.text = courseData['subjectName'];
+      _shortName.text = courseData['shortName'];
+      _isGPA.text = courseData['isGPA'];
+      _credits.text = courseData['credits'];
+      _isCompulsory.text = courseData['isCompulsory'];
+      _lecturerName.text = courseData['lecturerName'];
+    } on FirebaseException catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
   //create log
   void createLog(String data) async {
     try {
@@ -162,7 +301,7 @@ class _CourseAdd1State extends State<CourseAdd1> {
           .doc(currentDateTime)
           .set({
         'datetime': currentDateTime,
-        'activity': 'New Course added ($data)',
+        'activity': 'Course updated ($data)',
       });
     } on FirebaseException catch (e) {
       print(e);
@@ -176,7 +315,7 @@ class _CourseAdd1State extends State<CourseAdd1> {
   }
 
   //add to firebase
-  void addNewCourse() async {
+  void updateCourse() async {
     setState(() {
       isLoading = true;
       subCode = _subjectCode.text;
@@ -186,7 +325,7 @@ class _CourseAdd1State extends State<CourseAdd1> {
       await FirebaseFirestore.instance
           .collection('Course')
           .doc(_subjectCode.text)
-          .set({
+          .update({
         'semester': _semester.text,
         'subjectCode': _subjectCode.text,
         'subjectName': _subjectName.text,

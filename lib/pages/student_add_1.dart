@@ -197,6 +197,28 @@ class _StudentAdd1State extends State<StudentAdd1> {
     });
   }
 
+  //create log
+  void createLog(String data) async {
+    try {
+      String currentDateTime = DateTime.now().toString();
+      await FirebaseFirestore.instance
+          .collection('Log')
+          .doc(currentDateTime)
+          .set({
+        'datetime': currentDateTime,
+        'activity': 'New student added ($data)',
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
   //add to firebase
   void addNewSudent() async {
     String email = '';
@@ -256,6 +278,8 @@ class _StudentAdd1State extends State<StudentAdd1> {
             'mobile': _mobile.text,
             'email': email,
           });
+          //add to log
+          createLog(newIndexNumber);
         } else if (_degree.text == 'Computer Science') {
           //email
           email = '${_intake.text.split(' ')[1]}-bcs-0001@kdu.ac.lk';
@@ -289,6 +313,8 @@ class _StudentAdd1State extends State<StudentAdd1> {
             'mobile': _mobile.text,
             'email': email,
           });
+          //add to log
+          createLog(newIndexNumber);
         }
       } else {
         //already students in the db - from 0002
@@ -330,6 +356,8 @@ class _StudentAdd1State extends State<StudentAdd1> {
             'mobile': _mobile.text,
             'email': email,
           });
+          //add to log
+          createLog(newIndexNumber);
         } else if (_degree.text == 'Computer Science') {
           //new index no
           newIndexNumber = 'D/BCS/$intakeYear/$newIndexWithZeros';
@@ -364,6 +392,8 @@ class _StudentAdd1State extends State<StudentAdd1> {
             'mobile': _mobile.text,
             'email': email,
           });
+          //add to log
+          createLog(newIndexNumber);
         }
       }
       //temp data
