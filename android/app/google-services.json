@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "450033044874",
+    "project_id": "student-management-syste-c5833",
+    "storage_bucket": "student-management-syste-c5833.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450033044874:android:ac32d02e3ea1115c6d8c73",
+        "android_client_info": {
+          "package_name": "github.io.ramith_gunawardana.student_management_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsTrnCgY3VPQLPR-1Xkwm-oaigLO-v10g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
