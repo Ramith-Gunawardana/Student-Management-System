@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:student_management_system/components/custom_dropdown_menu.dart';
 import 'package:student_management_system/components/custom_filled_button.dart';
 import 'package:student_management_system/components/custom_sized_box.dart';
 import 'package:student_management_system/constants.dart';

@@ -24,8 +24,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace "github.io.ramith_gunawardana.student_management_system"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion 34
+    ndkVersion "23.1.7779620"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

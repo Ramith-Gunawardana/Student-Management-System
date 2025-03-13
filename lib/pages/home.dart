@@ -3,7 +3,6 @@ import 'package:student_management_system/components/custom_icon_button.dart';
 import 'package:student_management_system/pages/course_add_1.dart';
 import 'package:student_management_system/pages/dashboard.dart';
 import 'package:student_management_system/pages/student_add_1.dart';
-import 'package:student_management_system/pages/student_register_course.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -95,7 +94,10 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CustomIconButton(
-                      icon: const Icon(Icons.people_outline_rounded),
+                      icon: Icon(
+                        Icons.people_outline_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       label: 'View all Students',
                       onPressed: () {
                         Navigator.push(
@@ -109,7 +111,10 @@ class _HomeState extends State<Home> {
                       width: screenWidth,
                     ),
                     CustomIconButton(
-                      icon: const Icon(Icons.person_add_alt),
+                      icon: Icon(
+                        Icons.person_add_alt,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       label: 'Add new Student',
                       onPressed: () {
                         Navigator.push(
@@ -131,8 +136,12 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CustomIconButton(
-                      icon: const ImageIcon(
-                          AssetImage('assets/icons/course.png')),
+                      icon: ImageIcon(
+                        const AssetImage(
+                          'assets/icons/course.png',
+                        ),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       label: 'View all Courses',
                       onPressed: () {
                         Navigator.push(
@@ -146,8 +155,10 @@ class _HomeState extends State<Home> {
                       width: screenWidth,
                     ),
                     CustomIconButton(
-                      icon: const ImageIcon(
-                          AssetImage('assets/icons/addcourse.png')),
+                      icon: ImageIcon(
+                        const AssetImage('assets/icons/addcourse.png'),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       label: 'Add new Course',
                       onPressed: () {
                         Navigator.push(

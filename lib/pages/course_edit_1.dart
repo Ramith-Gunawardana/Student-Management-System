@@ -6,7 +6,6 @@ import 'package:student_management_system/components/custom_sized_box.dart';
 import 'package:student_management_system/components/custom_text_form_field.dart';
 import 'package:student_management_system/constants.dart';
 import 'package:student_management_system/controller/course_controller.dart';
-import 'package:student_management_system/pages/course_add_2.dart';
 import 'package:student_management_system/pages/course_edit_2.dart';
 import 'package:student_management_system/pages/dashboard.dart';
 
